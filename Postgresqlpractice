@@ -1,0 +1,1008 @@
+
+psql (9.6.3)
+Type "help" for help.
+
+postgres=# CREATE DATABASE occupation
+postgres-# ;
+CREATE DATABASE
+postgres=# SHOW DATABASES;
+ERROR:  unrecognized configuration parameter "databases"
+postgres=# \help
+Available help:
+  ABORT                            CREATE FOREIGN TABLE             DROP SEQUENCE
+  ALTER AGGREGATE                  CREATE FUNCTION                  DROP SERVER
+  ALTER COLLATION                  CREATE GROUP                     DROP TABLE
+  ALTER CONVERSION                 CREATE INDEX                     DROP TABLESPACE
+  ALTER DATABASE                   CREATE LANGUAGE                  DROP TEXT SEARCH CONFIGURATION
+  ALTER DEFAULT PRIVILEGES         CREATE MATERIALIZED VIEW         DROP TEXT SEARCH DICTIONARY
+  ALTER DOMAIN                     CREATE OPERATOR                  DROP TEXT SEARCH PARSER
+  ALTER EVENT TRIGGER              CREATE OPERATOR CLASS            DROP TEXT SEARCH TEMPLATE
+  ALTER EXTENSION                  CREATE OPERATOR FAMILY           DROP TRANSFORM
+  ALTER FOREIGN DATA WRAPPER       CREATE POLICY                    DROP TRIGGER
+  ALTER FOREIGN TABLE              CREATE ROLE                      DROP TYPE
+  ALTER FUNCTION                   CREATE RULE                      DROP USER
+  ALTER GROUP                      CREATE SCHEMA                    DROP USER MAPPING
+  ALTER INDEX                      CREATE SEQUENCE                  DROP VIEW
+  ALTER LANGUAGE                   CREATE SERVER                    END
+  ALTER LARGE OBJECT               CREATE TABLE                     EXECUTE
+  ALTER MATERIALIZED VIEW          CREATE TABLE AS                  EXPLAIN
+  ALTER OPERATOR                   CREATE TABLESPACE                FETCH
+  ALTER OPERATOR CLASS             CREATE TEXT SEARCH CONFIGURATION GRANT
+  ALTER OPERATOR FAMILY            CREATE TEXT SEARCH DICTIONARY    IMPORT FOREIGN SCHEMA
+  ALTER POLICY                     CREATE TEXT SEARCH PARSER        INSERT
+  ALTER ROLE                       CREATE TEXT SEARCH TEMPLATE      LISTEN
+  ALTER RULE                       CREATE TRANSFORM                 LOAD
+  ALTER SCHEMA                     CREATE TRIGGER                   LOCK
+  ALTER SEQUENCE                   CREATE TYPE                      MOVE
+  ALTER SERVER                     CREATE USER                      NOTIFY
+  ALTER SYSTEM                     CREATE USER MAPPING              PREPARE
+  ALTER TABLE                      CREATE VIEW                      PREPARE TRANSACTION
+  ALTER TABLESPACE                 DEALLOCATE                       REASSIGN OWNED
+  ALTER TEXT SEARCH CONFIGURATION  DECLARE                          REFRESH MATERIALIZED VIEW
+  ALTER TEXT SEARCH DICTIONARY     DELETE                           REINDEX
+  ALTER TEXT SEARCH PARSER         DISCARD                          RELEASE SAVEPOINT
+  ALTER TEXT SEARCH TEMPLATE       DO                               RESET
+  ALTER TRIGGER                    DROP ACCESS METHOD               REVOKE
+  ALTER TYPE                       DROP AGGREGATE                   ROLLBACK
+  ALTER USER                       DROP CAST                        ROLLBACK PREPARED
+  ALTER USER MAPPING               DROP COLLATION                   ROLLBACK TO SAVEPOINT
+  ALTER VIEW                       DROP CONVERSION                  SAVEPOINT
+  ANALYZE                          DROP DATABASE                    SECURITY LABEL
+  BEGIN                            DROP DOMAIN                      SELECT
+  CHECKPOINT                       DROP EVENT TRIGGER               SELECT INTO
+  CLOSE                            DROP EXTENSION                   SET
+  CLUSTER                          DROP FOREIGN DATA WRAPPER        SET CONSTRAINTS
+  COMMENT                          DROP FOREIGN TABLE               SET ROLE
+  COMMIT                           DROP FUNCTION                    SET SESSION AUTHORIZATION
+  COMMIT PREPARED                  DROP GROUP                       SET TRANSACTION
+  COPY                             DROP INDEX                       SHOW
+  CREATE ACCESS METHOD             DROP LANGUAGE                    START TRANSACTION
+  CREATE AGGREGATE                 DROP MATERIALIZED VIEW           TABLE
+  CREATE CAST                      DROP OPERATOR                    TRUNCATE
+  CREATE COLLATION                 DROP OPERATOR CLASS              UNLISTEN
+  CREATE CONVERSION                DROP OPERATOR FAMILY             UPDATE
+  CREATE DATABASE                  DROP OWNED                       VACUUM
+  CREATE DOMAIN                    DROP POLICY                      VALUES
+  CREATE EVENT TRIGGER             DROP ROLE                        WITH
+  CREATE EXTENSION                 DROP RULE                        
+  CREATE FOREIGN DATA WRAPPER      DROP SCHEMA                      
+postgres=# 
+postgres=# 
+postgres=# 
+postgres=# 
+postgres=# 
+postgres=# 
+postgres=# 
+postgres=# CREATE DATABASE occupation;
+ERROR:  database "occupation" already exists
+postgres=# \l
+                             List of databases
+    Name    |  Owner   | Encoding | Collate | Ctype |   Access privileges   
+------------+----------+----------+---------+-------+-----------------------
+ occupation | postgres | UTF8     | C       | C     | 
+ postgres   | postgres | UTF8     | C       | C     | 
+ template0  | postgres | UTF8     | C       | C     | =c/postgres          +
+            |          |          |         |       | postgres=CTc/postgres
+ template1  | postgres | UTF8     | C       | C     | =c/postgres          +
+            |          |          |         |       | postgres=CTc/postgres
+(4 rows)
+
+postgres=# \c occupation;
+You are now connected to database "occupation" as user "postgres".
+occupation=# CREATE TABLE COMPANY(
+occupation(#    ID INT PRIMARY KEY     NOT NULL,
+occupation(#    NAME           TEXT    NOT NULL,
+occupation(#    AGE            INT     NOT NULL,
+occupation(#    ADDRESS        CHAR(50),
+occupation(#    SALARY         REAL
+occupation(# );
+CREATE TABLE
+occupation=# CREATE TABLE DEPARTMENT(
+occupation(#    ID INT PRIMARY KEY      NOT NULL,
+occupation(#    DEPT           CHAR(50) NOT NULL,
+occupation(#    EMP_ID         INT      NOT NULL
+occupation(# );
+CREATE TABLE
+occupation=# \d
+           List of relations
+ Schema |    Name    | Type  |  Owner   
+--------+------------+-------+----------
+ public | company    | table | postgres
+ public | department | table | postgres
+(2 rows)
+
+occupation=# \d company
+       Table "public.company"
+ Column  |     Type      | Modifiers 
+---------+---------------+-----------
+ id      | integer       | not null
+ name    | text          | not null
+ age     | integer       | not null
+ address | character(50) | 
+ salary  | real          | 
+Indexes:
+    "company_pkey" PRIMARY KEY, btree (id)
+
+occupation=# drop table department, company;
+DROP TABLE
+occupation=# \d
+No relations found.
+occupation=# create schema myschema;
+CREATE SCHEMA
+occupation=# testdb=# create table myschema.company(
+occupation(#    ID   INT              NOT NULL,
+occupation(#    NAME VARCHAR (20)     NOT NULL,
+occupation(#    AGE  INT              NOT NULL,
+occupation(#    ADDRESS  CHAR (25),
+occupation(#    SALARY   DECIMAL (18, 2),
+occupation(#    PRIMARY KEY (ID)
+occupation(# );
+ERROR:  syntax error at or near "testdb"
+LINE 1: testdb=# create table myschema.company(
+        ^
+occupation=# create table myschema.company(
+occupation(#    ID   INT              NOT NULL,
+occupation(#    NAME VARCHAR (20)     NOT NULL,
+occupation(#    AGE  INT              NOT NULL,
+occupation(#    ADDRESS  CHAR (25),
+occupation(#    SALARY   DECIMAL (18, 2),
+occupation(#    PRIMARY KEY (ID)
+occupation(# );
+CREATE TABLE
+occupation=# \d
+No relations found.
+occupation=# \l
+                             List of databases
+    Name    |  Owner   | Encoding | Collate | Ctype |   Access privileges   
+------------+----------+----------+---------+-------+-----------------------
+ occupation | postgres | UTF8     | C       | C     | 
+ postgres   | postgres | UTF8     | C       | C     | 
+ template0  | postgres | UTF8     | C       | C     | =c/postgres          +
+            |          |          |         |       | postgres=CTc/postgres
+ template1  | postgres | UTF8     | C       | C     | =c/postgres          +
+            |          |          |         |       | postgres=CTc/postgres
+(4 rows)
+
+occupation=# \t
+Tuples only is on.
+occupation=# select * from myschema.company;
+
+occupation=# create table myschema.company(                                                                                ID   INT              NOT NULL,                                                                                         NAME VARCHAR (20)     NOT NULL,                                                                                         AGE  INT              NOT NULL,                                                                                         ADDRESS  CHAR (25),                                                                                                     SALARY   DECIMAL (18, 2),                                                                                               PRIMARY KEY (ID)                                                                                                     );
+ERROR:  relation "company" already exists
+occupation=# DROP SCHEMA myschema;
+ERROR:  cannot drop schema myschema because other objects depend on it
+DETAIL:  table myschema.company depends on schema myschema
+HINT:  Use DROP ... CASCADE to drop the dependent objects too.
+occupation=# DROP SCHEMA myschema CASCADE;
+NOTICE:  drop cascades to table myschema.company
+DROP SCHEMA
+occupation=# CREATE TABLE COMPANY(
+occupation(#    ID INT PRIMARY KEY     NOT NULL,
+occupation(#    NAME           TEXT    NOT NULL,
+occupation(#    AGE            INT     NOT NULL,
+occupation(#    ADDRESS        CHAR(50),
+occupation(#    SALARY         REAL,
+occupation(#    JOIN_DATE   DATE
+occupation(# );
+CREATE TABLE
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY,JOIN_DATE) VALUES (1, 'Paul', 32, 'California', 20000.00,'2001-07-13');
+INSERT 0 1
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,JOIN_DATE) VALUES (2, 'Allen', 25, 'Texas', '2007-12-13');
+INSERT 0 1
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY,JOIN_DATE) VALUES (3, 'Teddy', 23, 'Norway', 20000.00, DEFAULT );
+INSERT 0 1
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY,JOIN_DATE) VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00, '2007-12-13' ), (5, 'David', 27, 'Texas', 85000.00, '2007-12-13');
+INSERT 0 2
+occupation=# select * from company;
+  1 | Paul  |  32 | California                                         |  20000 | 2001-07-13
+  2 | Allen |  25 | Texas                                              |        | 2007-12-13
+  3 | Teddy |  23 | Norway                                             |  20000 | 
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (6, 'Kim', 22, 'South-Hall', 45000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY VALUES (7, 'James', 24, 'Houston', 10000.00 );
+INSERT 0 1
+occupation=# select * from company
+occupation-# ;
+  1 | Paul  |  32 | California                                         |  20000 | 2001-07-13
+  2 | Allen |  25 | Texas                                              |        | 2007-12-13
+  3 | Teddy |  23 | Norway                                             |  20000 | 
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+  6 | Kim   |  22 | South-Hall                                         |  45000 | 
+  7 | James |  24 | Houston                                            |  10000 | 
+
+occupation=# select ID,name,salary from company;
+  1 | Paul  |  20000
+  2 | Allen |       
+  3 | Teddy |  20000
+  4 | Mark  |  65000
+  5 | David |  85000
+  6 | Kim   |  45000
+  7 | James |  10000
+
+occupation=# \d
+ public | company | table | postgres
+
+occupation=# \h
+Available help:
+  ABORT                            DEALLOCATE
+  ALTER AGGREGATE                  DECLARE
+  ALTER COLLATION                  DELETE
+  ALTER CONVERSION                 DISCARD
+  ALTER DATABASE                   DO
+  ALTER DEFAULT PRIVILEGES         DROP ACCESS METHOD
+  ALTER DOMAIN                     DROP AGGREGATE
+  ALTER EVENT TRIGGER              DROP CAST
+  ALTER EXTENSION                  DROP COLLATION
+  ALTER FOREIGN DATA WRAPPER       DROP CONVERSION
+  ALTER FOREIGN TABLE              DROP DATABASE
+  ALTER FUNCTION                   DROP DOMAIN
+  ALTER GROUP                      DROP EVENT TRIGGER
+  ALTER INDEX                      DROP EXTENSION
+  ALTER LANGUAGE                   DROP FOREIGN DATA WRAPPER
+  ALTER LARGE OBJECT               DROP FOREIGN TABLE
+  ALTER MATERIALIZED VIEW          DROP FUNCTION
+  ALTER OPERATOR                   DROP GROUP
+  ALTER OPERATOR CLASS             DROP INDEX
+  ALTER OPERATOR FAMILY            DROP LANGUAGE
+  ALTER POLICY                     DROP MATERIALIZED VIEW
+  ALTER ROLE                       DROP OPERATOR
+  ALTER RULE                       DROP OPERATOR CLASS
+  ALTER SCHEMA                     DROP OPERATOR FAMILY
+  ALTER SEQUENCE                   DROP OWNED
+  ALTER SERVER                     DROP POLICY
+  ALTER SYSTEM                     DROP ROLE
+  ALTER TABLE                      DROP RULE
+  ALTER TABLESPACE                 DROP SCHEMA
+  ALTER TEXT SEARCH CONFIGURATION  DROP SEQUENCE
+  ALTER TEXT SEARCH DICTIONARY     DROP SERVER
+  ALTER TEXT SEARCH PARSER         DROP TABLE
+  ALTER TEXT SEARCH TEMPLATE       DROP TABLESPACE
+  ALTER TRIGGER                    DROP TEXT SEARCH CONFIGURATION
+  ALTER TYPE                       DROP TEXT SEARCH DICTIONARY
+  ALTER USER                       DROP TEXT SEARCH PARSER
+  ALTER USER MAPPING               DROP TEXT SEARCH TEMPLATE
+  ALTER VIEW                       DROP TRANSFORM
+  ANALYZE                          DROP TRIGGER
+  BEGIN                            DROP TYPE
+  CHECKPOINT                       DROP USER
+  CLOSE                            DROP USER MAPPING
+  CLUSTER                          DROP VIEW
+  COMMENT                          END
+  COMMIT                           EXECUTE
+  COMMIT PREPARED                  EXPLAIN
+  COPY                             FETCH
+  CREATE ACCESS METHOD             GRANT
+  CREATE AGGREGATE                 IMPORT FOREIGN SCHEMA
+  CREATE CAST                      INSERT
+  CREATE COLLATION                 LISTEN
+  CREATE CONVERSION                LOAD
+  CREATE DATABASE                  LOCK
+  CREATE DOMAIN                    MOVE
+  CREATE EVENT TRIGGER             NOTIFY
+  CREATE EXTENSION                 PREPARE
+  CREATE FOREIGN DATA WRAPPER      PREPARE TRANSACTION
+  CREATE FOREIGN TABLE             REASSIGN OWNED
+  CREATE FUNCTION                  REFRESH MATERIALIZED VIEW
+  CREATE GROUP                     REINDEX
+  CREATE INDEX                     RELEASE SAVEPOINT
+  CREATE LANGUAGE                  RESET
+  CREATE MATERIALIZED VIEW         REVOKE
+  CREATE OPERATOR                  ROLLBACK
+  CREATE OPERATOR CLASS            ROLLBACK PREPARED
+  CREATE OPERATOR FAMILY           ROLLBACK TO SAVEPOINT
+  CREATE POLICY                    SAVEPOINT
+  CREATE ROLE                      SECURITY LABEL
+  CREATE RULE                      SELECT
+  CREATE SCHEMA                    SELECT INTO
+  CREATE SEQUENCE                  SET
+  CREATE SERVER                    SET CONSTRAINTS
+  CREATE TABLE                     SET ROLE
+  CREATE TABLE AS                  SET SESSION AUTHORIZATION
+  CREATE TABLESPACE                SET TRANSACTION
+  CREATE TEXT SEARCH CONFIGURATION SHOW
+  CREATE TEXT SEARCH DICTIONARY    START TRANSACTION
+  CREATE TEXT SEARCH PARSER        TABLE
+  CREATE TEXT SEARCH TEMPLATE      TRUNCATE
+  CREATE TRANSFORM                 UNLISTEN
+  CREATE TRIGGER                   UPDATE
+  CREATE TYPE                      VACUUM
+  CREATE USER                      VALUES
+  CREATE USER MAPPING              WITH
+  CREATE VIEW                      
+occupation=# 
+occupation=# 
+occupation=# 
+occupation=# 
+occupation=# 
+occupation=# 
+occupation=# 
+occupation=# 
+occupation=# 
+occupation=# 
+occupation=# SELECT * FROM COMPANY WHERE SALARY > 50000
+occupation-# /c occupation
+occupation-# \c occupation
+You are now connected to database "occupation" as user "postgres".
+occupation-# SELECT * FROM COMPANY WHERE SALARY > 50000
+occupation-# select * from company                                                                   ;
+ERROR:  syntax error at or near "occupation"
+LINE 2: /c occupation
+           ^
+occupation=# SELECT * FROM COMPANY;
+  1 | Paul  |  32 | California                                         |  20000 | 2001-07-13
+  2 | Allen |  25 | Texas                                              |        | 2007-12-13
+  3 | Teddy |  23 | Norway                                             |  20000 | 
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+  6 | Kim   |  22 | South-Hall                                         |  45000 | 
+  7 | James |  24 | Houston                                            |  10000 | 
+
+occupation=# SELECT * FROM COMPANY WHERE SALARY > 50000;
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+
+occupation=# SELECT * FROM COMPANY WHERE SALARY != 20000;
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+  6 | Kim   |  22 | South-Hall                                         |  45000 | 
+  7 | James |  24 | Houston                                            |  10000 | 
+
+occupation=# SELECT (15 + 6) AS ADDITION ;
+       21
+
+occupation=# SELECT COUNT(*) AS "RECORDS" FROM COMPANY;
+       7
+
+occupation=# SELECT COUNT(*) FROM COMPANY;
+     7
+
+occupation=# SELECT CURRENT_TIMESTAMP;
+ 2017-07-31 16:57:36.11347+02
+
+occupation=# SELECT * FROM COMPANY WHERE AGE >= 25 AND SALARY >= 65000;
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+
+occupation=# SELECT * FROM COMPANY WHERE AGE >= 25 OR SALARY >= 65000;
+  1 | Paul  |  32 | California                                         |  20000 | 2001-07-13
+  2 | Allen |  25 | Texas                                              |        | 2007-12-13
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+
+occupation=# SELECT * FROM COMPANY WHERE AGE IS NOT NULL;
+  1 | Paul  |  32 | California                                         |  20000 | 2001-07-13
+  2 | Allen |  25 | Texas                                              |        | 2007-12-13
+  3 | Teddy |  23 | Norway                                             |  20000 | 
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+  6 | Kim   |  22 | South-Hall                                         |  45000 | 
+  7 | James |  24 | Houston                                            |  10000 | 
+
+occupation=# SELECT * FROM COMPANY WHERE SALARY IS NOT NULL;
+  1 | Paul  |  32 | California                                         |  20000 | 2001-07-13
+  3 | Teddy |  23 | Norway                                             |  20000 | 
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+  6 | Kim   |  22 | South-Hall                                         |  45000 | 
+  7 | James |  24 | Houston                                            |  10000 | 
+
+occupation=# SELECT * FROM COMPANY WHERE NAME LIKE 'Pa%';
+  1 | Paul |  32 | California                                         |  20000 | 2001-07-13
+
+occupation=# SELECT * FROM COMPANY WHERE AGE IN ( 25, 27 );
+  2 | Allen |  25 | Texas                                              |        | 2007-12-13
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+
+occupation=# SELECT * FROM COMPANY WHERE AGE NOT IN ( 25, 27 );
+  1 | Paul  |  32 | California                                         |  20000 | 2001-07-13
+  3 | Teddy |  23 | Norway                                             |  20000 | 
+  6 | Kim   |  22 | South-Hall                                         |  45000 | 
+  7 | James |  24 | Houston                                            |  10000 | 
+
+occupation=# SELECT * FROM COMPANY WHERE AGE BETWEEN 25 AND 27;
+  2 | Allen |  25 | Texas                                              |        | 2007-12-13
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+
+occupation=# SELECT AGE FROM COMPANY
+occupation-#         WHERE EXISTS (SELECT AGE FROM COMPANY WHERE SALARY > 65000);
+  32
+  25
+  23
+  25
+  27
+  22
+  24
+
+occupation=# SELECT AGE FROM COMPANY WHERE SALARY > 65000
+occupation-# ;
+  27
+
+occupation=# SELECT * FROM COMPANY
+occupation-#         WHERE AGE > (SELECT AGE FROM COMPANY WHERE SALARY > 65000);
+  1 | Paul |  32 | California                                         |  20000 | 2001-07-13
+
+occupation=# SELECT * FROM COMPANY WHERE AGE >= 25 OR SALARY >= 65000;
+  1 | Paul  |  32 | California                                         |  20000 | 2001-07-13
+  2 | Allen |  25 | Texas                                              |        | 2007-12-13
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+
+occupation=# select * from company;
+  1 | Paul  |  32 | California                                         |  20000 | 2001-07-13
+  2 | Allen |  25 | Texas                                              |        | 2007-12-13
+  3 | Teddy |  23 | Norway                                             |  20000 | 
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+  6 | Kim   |  22 | South-Hall                                         |  45000 | 
+  7 | James |  24 | Houston                                            |  10000 | 
+
+occupation=# UPDATE COMPANY SET SALARY = 15000 WHERE ID = 2;
+UPDATE 1
+occupation=# UPDATE COMPANY SET SALARY = 15000 WHERE ID = 3;
+UPDATE 1
+occupation=# select * from company;
+  1 | Paul  |  32 | California                                         |  20000 | 2001-07-13
+  4 | Mark  |  25 | Rich-Mond                                          |  65000 | 2007-12-13
+  5 | David |  27 | Texas                                              |  85000 | 2007-12-13
+  6 | Kim   |  22 | South-Hall                                         |  45000 | 
+  7 | James |  24 | Houston                                            |  10000 | 
+  2 | Allen |  25 | Texas                                              |  15000 | 2007-12-13
+  3 | Teddy |  23 | Norway                                             |  15000 | 
+
+occupation=# UPDATE COMPANY SET ADDRESS = 'Texas', SALARY=20000;
+UPDATE 7
+occupation=# DROP TABLE COMPANY;
+DROP TABLE
+occupation=# CREATE TABLE COMPANY(
+occupation(#    ID INT PRIMARY KEY     NOT NULL,
+occupation(#    NAME           TEXT    NOT NULL,
+occupation(#    AGE            INT     NOT NULL,
+occupation(#    ADDRESS        CHAR(50),
+occupation(#    SALARY         REAL
+occupation(# );
+CREATE TABLE
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (1, 'Paul', 32, 'California', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (2, 'Allen', 25, 'Texas', 15000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (5, 'David', 27, 'Texas', 85000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (6, 'Kim', 22, 'South-Hall', 45000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY VALUES (7, 'James', 24, 'Houston', 10000.00 );
+INSERT 0 1
+occupation=# select * from table;
+ERROR:  syntax error at or near "table"
+LINE 1: select * from table;
+                      ^
+occupation=# select * from company;
+  1 | Paul  |  32 | California                                         |  20000
+  2 | Allen |  25 | Texas                                              |  15000
+  3 | Teddy |  23 | Norway                                             |  20000
+  4 | Mark  |  25 | Rich-Mond                                          |  65000
+  5 | David |  27 | Texas                                              |  85000
+  6 | Kim   |  22 | South-Hall                                         |  45000
+  7 | James |  24 | Houston                                            |  10000
+
+occupation=# DELETE FROM COMPANY WHERE ID = 2;
+DELETE 1
+occupation=# DELETE FROM COMPANY;
+DELETE 6
+occupation=# select * from company;
+
+occupation=# SELECT * FROM COMPANY WHERE AGE::text LIKE '2%';
+
+occupation=# DROP TABLE COMPANY;
+DROP TABLE
+occupation=# CREATE TABLE COMPANY(
+occupation(#    ID INT PRIMARY KEY     NOT NULL,
+occupation(#    NAME           TEXT    NOT NULL,
+occupation(#    AGE            INT     NOT NULL,
+occupation(#    ADDRESS        CHAR(50),
+occupation(#    SALARY         REAL
+occupation(# );
+CREATE TABLE
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (1, 'Paul', 32, 'California', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (2, 'Allen', 25, 'Texas', 15000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (5, 'David', 27, 'Texas', 85000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (6, 'Kim', 22, 'South-Hall', 45000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY VALUES (7, 'James', 24, 'Houston', 10000.00 );
+INSERT 0 1
+occupation=# \
+Invalid command \. Try \? for help.
+occupation=# \d
+ public | company | table | postgres
+
+occupation=# \l
+ occupation | postgres | UTF8     | C       | C     | 
+ postgres   | postgres | UTF8     | C       | C     | 
+ template0  | postgres | UTF8     | C       | C     | =c/postgres          +
+            |          |          |         |       | postgres=CTc/postgres
+ template1  | postgres | UTF8     | C       | C     | =c/postgres          +
+            |          |          |         |       | postgres=CTc/postgres
+
+occupation=# \c postgres
+You are now connected to database "postgres" as user "postgres".
+postgres=# \occupation
+Invalid command \occupation. Try \? for help.
+postgres=# \c occupation
+You are now connected to database "occupation" as user "postgres".
+occupation=# \t
+Tuples only is off.
+occupation=# \d
+          List of relations
+ Schema |  Name   | Type  |  Owner   
+--------+---------+-------+----------
+ public | company | table | postgres
+(1 row)
+
+occupation=# SELECT * FROM COMPANY WHERE ADDRESS  LIKE '%-%'
+occupation-# ;
+ id | name | age |                      address                       | salary 
+----+------+-----+----------------------------------------------------+--------
+  4 | Mark |  25 | Rich-Mond                                          |  65000
+  6 | Kim  |  22 | South-Hall                                         |  45000
+(2 rows)
+
+occupation=# SELECT * FROM COMPANY LIMIT 4;
+ id | name  | age |                      address                       | salary 
+----+-------+-----+----------------------------------------------------+--------
+  1 | Paul  |  32 | California                                         |  20000
+  2 | Allen |  25 | Texas                                              |  15000
+  3 | Teddy |  23 | Norway                                             |  20000
+  4 | Mark  |  25 | Rich-Mond                                          |  65000
+(4 rows)
+
+occupation=# SELECT * FROM COMPANY LIMIT 3 OFFSET 2;
+ id | name  | age |                      address                       | salary 
+----+-------+-----+----------------------------------------------------+--------
+  3 | Teddy |  23 | Norway                                             |  20000
+  4 | Mark  |  25 | Rich-Mond                                          |  65000
+  5 | David |  27 | Texas                                              |  85000
+(3 rows)
+
+occupation=# SELECT * FROM COMPANY LIMIT 3 OFFSET 4;
+ id | name  | age |                      address                       | salary 
+----+-------+-----+----------------------------------------------------+--------
+  5 | David |  27 | Texas                                              |  85000
+  6 | Kim   |  22 | South-Hall                                         |  45000
+  7 | James |  24 | Houston                                            |  10000
+(3 rows)
+
+occupation=# SELECT * FROM COMPANY ORDER BY AGE ASC;
+ id | name  | age |                      address                       | salary 
+----+-------+-----+----------------------------------------------------+--------
+  6 | Kim   |  22 | South-Hall                                         |  45000
+  3 | Teddy |  23 | Norway                                             |  20000
+  7 | James |  24 | Houston                                            |  10000
+  4 | Mark  |  25 | Rich-Mond                                          |  65000
+  2 | Allen |  25 | Texas                                              |  15000
+  5 | David |  27 | Texas                                              |  85000
+  1 | Paul  |  32 | California                                         |  20000
+(7 rows)
+
+occupation=# DROP TABLE COMPANY;
+DROP TABLE
+occupation=# CREATE TABLE COMPANY(
+occupation(#    ID INT PRIMARY KEY     NOT NULL,
+occupation(#    NAME           TEXT    NOT NULL,
+occupation(#    AGE            INT     NOT NULL,
+occupation(#    ADDRESS        CHAR(50),
+occupation(#    SALARY         REAL
+occupation(# );
+CREATE TABLE
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (1, 'Paul', 32, 'California', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (2, 'Allen', 25, 'Texas', 15000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (5, 'David', 27, 'Texas', 85000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (6, 'Kim', 22, 'South-Hall', 45000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY VALUES (7, 'James', 24, 'Houston', 10000.00 );
+INSERT 0 1
+occupation=# SELECT * FROM COMPANY ORDER BY NAME, SALARY ASC;
+ id | name  | age |                      address                       | salary 
+----+-------+-----+----------------------------------------------------+--------
+  2 | Allen |  25 | Texas                                              |  15000
+  5 | David |  27 | Texas                                              |  85000
+  7 | James |  24 | Houston                                            |  10000
+  6 | Kim   |  22 | South-Hall                                         |  45000
+  4 | Mark  |  25 | Rich-Mond                                          |  65000
+  1 | Paul  |  32 | California                                         |  20000
+  3 | Teddy |  23 | Norway                                             |  20000
+(7 rows)
+
+occupation=# SELECT * FROM COMPANY ORDER BY NAME DESC;
+ id | name  | age |                      address                       | salary 
+----+-------+-----+----------------------------------------------------+--------
+  3 | Teddy |  23 | Norway                                             |  20000
+  1 | Paul  |  32 | California                                         |  20000
+  4 | Mark  |  25 | Rich-Mond                                          |  65000
+  6 | Kim   |  22 | South-Hall                                         |  45000
+  7 | James |  24 | Houston                                            |  10000
+  5 | David |  27 | Texas                                              |  85000
+  2 | Allen |  25 | Texas                                              |  15000
+(7 rows)
+
+occupation=# SELECT NAME, SUM(SALARY) FROM COMPANY GROUP BY NAME;
+ name  |  sum  
+-------+-------
+ Teddy | 20000
+ Paul  | 20000
+ Mark  | 65000
+ David | 85000
+ Allen | 15000
+ Kim   | 45000
+ James | 10000
+(7 rows)
+
+occupation=# SELECT NAME,SALARY FROM COMPANY GROUP BY NAME;
+ERROR:  column "company.salary" must appear in the GROUP BY clause or be used in an aggregate function
+LINE 1: SELECT NAME,SALARY FROM COMPANY GROUP BY NAME;
+                    ^
+occupation=# occupation=# SELECT NAME,SALARY FROM COMPANY GROUP BY NAME,SALARY;
+ name  | salary 
+-------+--------
+ Teddy |  20000
+ Mark  |  65000
+ Paul  |  20000
+ David |  85000
+ James |  10000
+ Allen |  15000
+ Kim   |  45000
+(7 rows)
+
+occupation=# SELECT NAME, SUM(SALARY) FROM COMPANY GROUP BY NAME;
+ name  |  sum  
+-------+-------
+ Teddy | 20000
+ Paul  | 20000
+ Mark  | 65000
+ David | 85000
+ Allen | 15000
+ Kim   | 45000
+ James | 10000
+(7 rows)
+
+occupation=# INSERT INTO COMPANY VALUES (8, 'Paul', 24, 'Houston', 20000.00);
+INSERT 0 1
+occupation=# INSERT INTO COMPANY VALUES (9, 'James', 44, 'Norway', 5000.00);
+INSERT 0 1
+occupation=# INSERT INTO COMPANY VALUES (10, 'James', 45, 'Texas', 5000.00);
+INSERT 0 1
+occupation=# SELECT NAME, SUM(SALARY) FROM COMPANY GROUP BY NAME ORDER BY NAME;
+ name  |  sum  
+-------+-------
+ Allen | 15000
+ David | 85000
+ James | 20000
+ Kim   | 45000
+ Mark  | 65000
+ Paul  | 40000
+ Teddy | 20000
+(7 rows)
+
+occupation=# SELECT NAME, SUM(SALARY) FROM COMPANY GROUP BY NAME ORDER BY NAME;
+ name  |  sum  
+-------+-------
+ Allen | 15000
+ David | 85000
+ James | 20000
+ Kim   | 45000
+ Mark  | 65000
+ Paul  | 40000
+ Teddy | 20000
+(7 rows)
+
+occupation=# SELECT NAME, SUM(SALARY)
+occupation-#          FROM COMPANY GROUP BY NAME ORDER BY NAME DESC;
+ name  |  sum  
+-------+-------
+ Teddy | 20000
+ Paul  | 40000
+ Mark  | 65000
+ Kim   | 45000
+ James | 20000
+ David | 85000
+ Allen | 15000
+(7 rows)
+
+occupation=# With CTE AS
+occupation-# (Select
+occupation(#  ID
+occupation(# , NAME
+occupation(# , AGE
+occupation(# , ADDRESS
+occupation(# , SALARY
+occupation(# FROM COMPANY )
+occupation-# Select * From CTE;
+ id | name  | age |                      address                       | salary 
+----+-------+-----+----------------------------------------------------+--------
+  1 | Paul  |  32 | California                                         |  20000
+  2 | Allen |  25 | Texas                                              |  15000
+  3 | Teddy |  23 | Norway                                             |  20000
+  4 | Mark  |  25 | Rich-Mond                                          |  65000
+  5 | David |  27 | Texas                                              |  85000
+  6 | Kim   |  22 | South-Hall                                         |  45000
+  7 | James |  24 | Houston                                            |  10000
+  8 | Paul  |  24 | Houston                                            |  20000
+  9 | James |  44 | Norway                                             |   5000
+ 10 | James |  45 | Texas                                              |   5000
+(10 rows)
+
+occupation=# WITH RECURSIVE t(n) AS (
+occupation(#    VALUES (0)
+occupation(#    UNION ALL
+occupation(#    SELECT SALARY FROM COMPANY WHERE SALARY < 20000
+occupation(# )
+occupation-# SELECT sum(n) FROM t;
+  sum  
+-------
+ 35000
+(1 row)
+
+occupation=# CREATE TABLE COMPANY1(
+occupation(#    ID INT PRIMARY KEY     NOT NULL,
+occupation(#    NAME           TEXT    NOT NULL,
+occupation(#    AGE            INT     NOT NULL,
+occupation(#    ADDRESS        CHAR(50),
+occupation(#    SALARY         REAL
+occupation(# );
+CREATE TABLE
+occupation=# 
+occupation=# WITH moved_rows AS (
+occupation(#    DELETE FROM COMPANY
+occupation(#    WHERE
+occupation(#       SALARY >= 30000
+occupation(#    RETURNING *
+occupation(# )
+occupation-# INSERT INTO COMPANY1 (SELECT * FROM moved_rows);
+INSERT 0 3
+occupation=# SELECT * FROM COMPANY;
+ id | name  | age |                      address                       | salary 
+----+-------+-----+----------------------------------------------------+--------
+  1 | Paul  |  32 | California                                         |  20000
+  2 | Allen |  25 | Texas                                              |  15000
+  3 | Teddy |  23 | Norway                                             |  20000
+  7 | James |  24 | Houston                                            |  10000
+  8 | Paul  |  24 | Houston                                            |  20000
+  9 | James |  44 | Norway                                             |   5000
+ 10 | James |  45 | Texas                                              |   5000
+(7 rows)
+
+occupation=# SELECT * FROM COMPANY1;
+ id | name  | age |                      address                       | salary 
+----+-------+-----+----------------------------------------------------+--------
+  4 | Mark  |  25 | Rich-Mond                                          |  65000
+  5 | David |  27 | Texas                                              |  85000
+  6 | Kim   |  22 | South-Hall                                         |  45000
+(3 rows)
+
+occupation=# SELECT NAME FROM COMPANY GROUP BY name HAVING count(name) < 2;
+ name  
+-------
+ Teddy
+ Allen
+(2 rows)
+
+occupation=# DROP TABLE COMPANY;
+DROP TABLE
+occupation=# CREATE TABLE COMPANY(
+occupation(#    ID INT PRIMARY KEY     NOT NULL,
+occupation(#    NAME           TEXT    NOT NULL,
+occupation(#    AGE            INT     NOT NULL,
+occupation(#    ADDRESS        CHAR(50),
+occupation(#    SALARY         REAL
+occupation(# );
+CREATE TABLE
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (1, 'Paul', 32, 'California', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (2, 'Allen', 25, 'Texas', 15000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (5, 'David', 27, 'Texas', 85000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (6, 'Kim', 22, 'South-Hall', 45000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY VALUES (7, 'James', 24, 'Houston', 10000.00 );
+INSERT 0 1
+occupation=# SELECT NAME FROM COMPANY GROUP BY name HAVING count(name) < 2;
+ name  
+-------
+ Teddy
+ Paul
+ Mark
+ David
+ Allen
+ Kim
+ James
+(7 rows)
+
+occupation=# INSERT INTO COMPANY VALUES (8, 'Paul', 24, 'Houston', 20000.00);
+INSERT 0 1
+occupation=# INSERT INTO COMPANY VALUES (9, 'James', 44, 'Norway', 5000.00);
+INSERT 0 1
+occupation=# INSERT INTO COMPANY VALUES (10, 'James', 45, 'Texas', 5000.00);
+INSERT 0 1
+occupation=# SELECT NAME FROM COMPANY GROUP BY name HAVING count(name) > 1;
+ name  
+-------
+ Paul
+ James
+(2 rows)
+
+occupation=# DROP TABLE COMPANY;
+DROP TABLE
+occupation=# CREATE TABLE COMPANY(
+occupation(#    ID INT PRIMARY KEY     NOT NULL,
+occupation(#    NAME           TEXT    NOT NULL,
+occupation(#    AGE            INT     NOT NULL,
+occupation(#    ADDRESS        CHAR(50),
+occupation(#    SALARY         REAL
+occupation(# );
+CREATE TABLE
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (1, 'Paul', 32, 'California', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (2, 'Allen', 25, 'Texas', 15000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (5, 'David', 27, 'Texas', 85000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (6, 'Kim', 22, 'South-Hall', 45000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY VALUES (7, 'James', 24, 'Houston', 10000.00 );
+INSERT 0 1
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (8, 'Paul', 32, 'California', 20000.00 );
+INSERT 0 1
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (9, 'Allen', 25, 'Texas', 15000.00 );
+INSERT 0 1
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-# VALUES (8, 'Paul', 32, 'California', 20000.00 );
+ERROR:  duplicate key value violates unique constraint "company_pkey"
+DETAIL:  Key (id)=(8) already exists.
+occupation=# 
+occupation=# INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)
+occupation-#                                                                                                           occupation-# ;
+ERROR:  syntax error at or near ";"
+LINE 2: ;
+        ^
+occupation=# select * from company
+occupation-# ;
+ id | name  | age |                      address                       | salary 
+----+-------+-----+----------------------------------------------------+--------
+  1 | Paul  |  32 | California                                         |  20000
+  2 | Allen |  25 | Texas                                              |  15000
+  3 | Teddy |  23 | Norway                                             |  20000
+  4 | Mark  |  25 | Rich-Mond                                          |  65000
+  5 | David |  27 | Texas                                              |  85000
+  6 | Kim   |  22 | South-Hall                                         |  45000
+  7 | James |  24 | Houston                                            |  10000
+  8 | Paul  |  32 | California                                         |  20000
+  9 | Allen |  25 | Texas                                              |  15000
+(9 rows)
+
+occupation=# select name from company
+occupation-# ;
+ name  
+-------
+ Paul
+ Allen
+ Teddy
+ Mark
+ David
+ Kim
+ James
+ Paul
+ Allen
+(9 rows)
+
+occupation=# select DISTINCT name from company;
+ name  
+-------
+ Teddy
+ Paul
+ Mark
+ David
+ Allen
+ Kim
+ James
+(7 rows)
+
+occupation=# 
+  [Restored]
+Last login: Tue Aug  8 13:53:25 on console
+adrianas-Air:~ Adriver$ 
